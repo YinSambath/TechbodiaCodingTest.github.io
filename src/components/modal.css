@@ -1,0 +1,102 @@
+.overlay{
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    background: rgba(0,0,0,0.5);
+    z-index:999;
+    -webkit-animation: fadeIn .3s;
+    animation: fadeIn .3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal {
+  background-color: #fff;
+  max-height: 90vh;
+  padding: 10px;
+  margin: auto 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-width: 90%;
+  position: absolute;
+  z-index:999;
+}
+.first-row, .second-row, .third-row, .fourth-row {
+  display: flex;
+  gap: 25px;
+  padding: 10px;
+  justify-content: space-evenly;
+}
+
+.fifth-row {
+  display: flex;
+  padding: 10px;
+}
+.name, .independent, .people, .code, .postalCode, .maps {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.coatArm {
+  display: flex; flex-direction: column; align-items: center;
+}
+.coatArm p {
+  white-space: nowrap;
+}
+.name-left, .name-right {
+  text-align: start;
+}
+.box {
+  width: 200px;
+  max-height: 250px;
+  overflow-y: auto;
+  text-align: start;
+  overflow-x: hidden;
+}
+.box1 {
+  text-align: start;
+  width: 150px;
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.box p , .box1 p{
+  text-align: start;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.box h5, .box1 h5 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.flag-icon {
+  max-height: 80px;
+}
+h1, h2, h3, h4, h5, h6, p {
+  margin: 2px;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

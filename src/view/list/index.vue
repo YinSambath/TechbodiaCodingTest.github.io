@@ -50,27 +50,21 @@
                     </td>
                     <td style="cursor: pointer;" @click="onChooseItem(country)">{{ country.name.official }}</td>
                     <td>
-                        <tr v-for="(name, nameIndex) in nativeName(country.name.nativeName)" :key="(name, nameIndex)">
-                            <td style="border: none; padding: 10px 0;">
-                                {{ name }}
-                            </td>
-                        </tr>
+                        <div class="overflow">
+                            <p v-for="(name, nameIndex) in nativeName(country.name.nativeName)" :key="(name, nameIndex)">{{ name }}</p>
+                        </div>
                     </td>
                     <td>
-                        <tr v-for="(alt, altIndex) in country.altSpellings" :key="(alt, altIndex)">
-                            <td style="border: none; padding: 10px 0;">
-                                {{ alt }}
-                            </td>
-                        </tr>
+                        <div class="overflow">
+                            <p v-for="(alt, altIndex) in country.altSpellings" :key="(alt, altIndex)">{{ alt }}</p>
+                        </div>
                     </td>
                     <td style="text-align: center;">{{ country.cca2 }}</td>
                     <td style="text-align: center;">{{ country.cca3 }}</td>
-                    <td>
-                        <tr v-for="(idd,iddIndex) in country.idd.suffixes" :key="(idd,iddIndex)" style="display: flex; flex-direction: column;">
-                            <td style="text-align: center; border: none; padding: 10px 0;">
-                                {{ country.idd.root + idd }}
-                            </td>
-                        </tr>
+                    <td style="text-align: center;" >
+                        <div class="overflow">
+                            <p v-for="(idd,iddIndex) in country.idd.suffixes" :key="(idd,iddIndex)">{{ country.idd.root + idd }}</p>
+                        </div>
                     </td>
                 </tr>
             </tbody>
