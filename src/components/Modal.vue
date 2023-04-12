@@ -1,5 +1,6 @@
 <template>
-    <div class="overlay" @click="onClose()">
+    <div class="overlay">
+      <div class="overlay" @click="onClose()"></div>
       <div class="modal">
         <div class="first-row">
           <img :src="country.flags.png" class="flag-icon" alt="">
@@ -15,6 +16,7 @@
               <h4>{{ country.name.common ?? "Null" }}</h4>
               <h4>{{ country.region ?? "Null" }}</h4>
               <h4>{{ country.subregion ?? "Null" }}</h4>
+              
             </div>
           </div>
           <div class="people">
@@ -49,6 +51,10 @@
               <h4>{{ country.startOfWeek ?? "Null" }}</h4>
             </div>
           </div>
+          <div class="coatArm" >
+            <img :src="country.coatOfArms.png" style="height: 80px" />
+            <p>Coat Of Arms</p>
+          </div>
         </div>
 
         <el-divider style="margin: 5px; border-width: 2px;" />
@@ -64,6 +70,13 @@
             <el-divider style="margin: 3px 0 10px 0;" />
             <p v-for="(name, nameIndex) in language(country.languages)" :key="(name, nameIndex)">{{ name }}</p>
           </div>
+          <div class="currency">
+            <div class="box">
+              <h5 >Currency</h5>
+              <el-divider style="margin: 3px 0 10px 0;" />
+              <p v-for="(name, nameIndex) in currency(country.currencies)" :key="(name, nameIndex)">{{ name }}</p>
+            </div>
+          </div>
           <div class="box">
               <h5>Native Name Official</h5>
               <el-divider style="margin: 3px 0 10px 0;" />
@@ -74,32 +87,73 @@
               <el-divider style="margin: 3px 0 10px 0;" />
               <p v-for="(name, nameIndex) in commonName(country.name.nativeName)" :key="(name, nameIndex)">{{ name }}</p>
           </div>
-          <div class="currency">
-            <div class="box1">
-              <h5 >Currency</h5>
-              <el-divider style="margin: 3px 0 10px 0;" />
-              <p v-for="(name, nameIndex) in currency(country.currencies)" :key="(name, nameIndex)">{{ name }}</p>
-            </div>
-          </div>
+          
         </div>
 
         <el-divider style="margin: 5px; border-width: 2px;" />
 
         <div class="third-row">
+          
+          <div class="box1">
+            <h5>Alt Spellings</h5>
+            <el-divider style="margin: 3px 0 10px 0;" />
+            <p v-for="(name, nameIndex) in country.altSpellings" :key="(name, nameIndex)">{{ name }}</p>
+          </div>
+          
+          <div class="box">
+            <h5>Translation Official</h5>
+            <el-divider style="margin: 3px 0 10px 0;" />
+            <p v-for="(name, nameIndex) in officialName(country.translations)" :key="(name, nameIndex)">{{ name }}</p>
+          </div>
+          <div class="box">
+            <h5>Translation Common</h5>
+            <el-divider style="margin: 3px 0 10px 0;" />
+            <div class="box-name">
+              <p v-for="(name, nameIndex) in commonName(country.translations)" :key="(name, nameIndex)">{{ name }}</p>
+            </div>
+          </div>
+          <div class="box">
+            <h5>Demonyms-F</h5>
+            <el-divider style="margin: 3px 0 10px 0;" />
+            <div class="box-name">
+              <p v-for="(name, nameIndex) in demonymsF(country.demonyms)" :key="(name, nameIndex)">{{ name }}</p>
+            </div>
+          </div>
+          <div class="box">
+            <h5>Demonyms-M</h5>
+            <el-divider style="margin: 3px 0 10px 0;" />
+            <p v-for="(name, nameIndex) in demonymsM(country.demonyms)" :key="(name, nameIndex)">{{ name }}</p>
+          </div>
+          
+        </div>
+
+        <el-divider style="margin: 5px; border-width: 2px;" />
+
+        <div class="fourth-row">
+          <div class="box1">
+              <h5>Car (side)</h5>
+              <el-divider style="margin: 3px 0 10px 0;" />
+              <p v-for="(name, nameIndex) in country.car.signs" :key="(name, nameIndex)">{{ name + "("+ (country.car.side ?? "No Have") +")" }}</p>
+          </div>
+          <div class="box1">
+              <h5>Continents</h5>
+              <el-divider style="margin: 3px 0 10px 0;" />
+              <p v-for="(name, nameIndex) in country.continents" :key="(name, nameIndex)">{{ name }}</p>
+          </div>
+          <div class="box1" style="width: 75px">
+              <h5>TLD</h5>
+              <el-divider style="margin: 3px 0 10px 0;" />
+              <p v-for="(name, nameIndex) in country.tld" :key="(name, nameIndex)">{{ name }}</p>
+          </div>
           <div class="box1" style="width: 85px;">
             <h5>IDD</h5>
             <el-divider style="margin: 3px 0 10px 0;" />
             <p v-for="(name, nameIndex) in country.idd.suffixes" :key="(name, nameIndex)">{{ country.idd.root + name }}</p>
           </div>
           <div class="box1">
-            <h5>Alt Spellings</h5>
-            <el-divider style="margin: 3px 0 10px 0;" />
-            <p v-for="(name, nameIndex) in country.altSpellings" :key="(name, nameIndex)">{{ name }}</p>
-          </div>
-          <div class="box1">
             <h5 >Code</h5>
             <el-divider style="margin: 3px 0 10px 0;" />
-            <div class="code" style="justify-content: center;">
+            <div class="code">
               <div class="name-left">
                 <p>CCA2: </p>
                 <p>CCA3: </p>
@@ -114,27 +168,31 @@
               </div>
             </div>
           </div>
-          <div class="box">
-            <h5>Translation Official</h5>
-            <el-divider style="margin: 3px 0 10px 0;" />
-            <p v-for="(name, nameIndex) in officialName(country.translations)" :key="(name, nameIndex)">{{ name }}</p>
-          </div>
-          <div class="box">
-            <h5>Translation Common</h5>
-            <el-divider style="margin: 3px 0 10px 0;" />
-            <p v-for="(name, nameIndex) in commonName(country.translations)" :key="(name, nameIndex)">{{ name }}</p>
-          </div>
-          <div class="box">
-            <h5>Demonyms-F</h5>
-            <el-divider style="margin: 3px 0 10px 0;" />
-            <p v-for="(name, nameIndex) in demonymsF(country.demonyms)" :key="(name, nameIndex)">{{ name }}</p>
-          </div>
-          <div class="box">
-            <h5>Demonyms-M</h5>
-            <el-divider style="margin: 3px 0 10px 0;" />
-            <p v-for="(name, nameIndex) in demonymsM(country.demonyms)" :key="(name, nameIndex)">{{ name }}</p>
+          <div class="box1">
+              <h5>TimeZone</h5>
+              <el-divider style="margin: 3px 0 10px 0;" />
+              <p v-for="(name, nameIndex) in country.timezones" :key="(name, nameIndex)">{{ name }}</p>
           </div>
           
+        </div>
+
+        <el-divider style="margin: 5px; border-width: 2px;" />
+
+        <div class="fifth-row">
+          <div class="postalCode">
+            <div class="name-left">
+              <p v-if="country.postalCode && country.postalCode.format">postal Code (Format): </p>
+              <p v-if="country.postalCode && country.postalCode.regex">postal Code (Regex): </p>
+              <p v-if="country.maps && country.maps.googleMaps">Google Map: </p>
+              <p >Open Street Map: </p>
+            </div>
+            <div class="name-right">
+              <h4 v-if="country.postalCode && country.postalCode.format">{{ country.postalCode.format ?? "No Have" }}</h4>
+              <h4 v-if="country.postalCode && country.postalCode.regex">{{ country.postalCode.regex ?? "No Have" }}</h4>
+              <h4 v-if="country.maps && country.maps.googleMaps">{{ country.maps.googleMaps ?? "No Have" }}</h4>
+              <h4 v-if="country.maps && country.maps.openStreetMaps">{{ country.maps.openStreetMaps ?? "No Have" }}</h4>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -238,7 +296,6 @@ export default {
     top:0;
     left:0;
     background: rgba(0,0,0,0.5);
-    overflow-y: auto;
     z-index:999;
     -webkit-animation: fadeIn .3s;
     animation: fadeIn .3s;
@@ -254,29 +311,32 @@ export default {
   overflow-y: auto;
   overflow-x: hidden;
   max-width: 90%;
+  position: absolute;
+  z-index:999;
 }
-.first-row {
+.first-row, .second-row, .third-row, .fourth-row {
   display: flex;
   gap: 25px;
-  /* border: 1px solid grey; */
   padding: 10px;
-  max-width: 45%;
+  justify-content: space-evenly;
 }
-.second-row {
-  padding: 0 10px 10px 10px;
+
+.fifth-row {
   display: flex;
-  gap: 25px;
+  padding: 10px;
 }
-.third-row {
-  padding: 0 10px 10px 10px;
-  display: flex;
-  gap: 25px;
-}
-.name, .independent, .people, .code {
+.name, .independent, .people, .code, .postalCode, .maps {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   gap: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.coatArm {
+  display: flex; flex-direction: column; align-items: center;
+}
+.coatArm p {
   white-space: nowrap;
 }
 .name-left, .name-right {
@@ -284,25 +344,51 @@ export default {
 }
 .box {
   width: 200px;
-  height: fit-content;
+  max-height: 250px;
+  overflow-y: auto;
+  text-align: start;
+  overflow-x: hidden;
 }
 .box1 {
+  text-align: start;
   width: 150px;
-  height: fit-content;
+  max-height: 250px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.box p , .box1 p{
+  text-align: start;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.box h5, .box1 h5 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 .flag-icon {
-  padding: 10px;
   max-height: 80px;
 }
 h1, h2, h3, h4, h5, h6, p {
   margin: 2px;
 }
-@-webkit-keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+::-webkit-scrollbar {
+  width: 5px;
 }
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 </style>

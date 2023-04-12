@@ -5,18 +5,26 @@
 .title, .sub-title {
     margin: 0;
     text-align: start;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .table {
     margin-top: 30px;
     width: 100%;
     text-align: start;
     font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 th {
     padding:10px;
     border-bottom: 2px solid #f2f2f2;
     text-align: start;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 tr td {
     text-align: start;
@@ -30,6 +38,7 @@ tr td {
 .search {
     height: 35px;
     width: 350px;
+    max-width: 350px;
     padding: 0 10px;
 }
 .flag {
