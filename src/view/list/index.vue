@@ -1,5 +1,5 @@
 <template>
-    <div class="index-page" >
+    <div class="index-page">
         <div class="text">
             <h1 class="title">List Country</h1>
             <p class="sub-title">General Information of Country (Flag, Country Name, 2 and 3 character Country Code...) </p>
@@ -8,7 +8,7 @@
             <input @input="onSearch" v-model="query" type="text" placeholder="Search by country name"
             @keydown="isSearching = true"
                 class="search" />
-            <div v-if="filterCountry[0] && (query !== '')"
+            <div v-if="filterCountry[0] && (query !== '') && isSearching"
                 class="wrapper">
                 <div class="box">
                     <div @click="onChooseItem(item)"
@@ -16,7 +16,7 @@
                         class="item">
                         <img :src="(item.flags.png)"
                             class="item-img" />
-                        <p style="margin: 0; text-align: start;" title="Product Name">
+                        <p class="item-name" title="Product Name">
                             {{item.name.official}}</p>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                     <td>
                         <img class="flag" :src="(country.flags.png)" alt="">
                     </td>
-                    <td>{{ country.name.official }}</td>
+                    <td style="cursor: pointer;" @click="onChooseItem(country)">{{ country.name.official }}</td>
                     <td>
                         <tr v-for="(name, nameIndex) in nativeName(country.name.nativeName)" :key="(name, nameIndex)">
                             <td style="border: none; padding: 10px 0;">
@@ -85,12 +85,13 @@
                 @current-change="handleCurrentChange"
             />
         </div>
-        
     </div>
+   <ModalCountry v-if="show" :country="country" @onClose="onClose"></ModalCountry>
 </template>
     
 <script>
-import ApiService from '@/services/Service';
+import ApiService from '@/services/Service'
+import ModalCountry from '@/components/Modal'
 
 export default {
     name: "List-Country",
@@ -104,11 +105,25 @@ export default {
             countryList: [],
             filterCountry: [],
             isAsc: true,
-            isSearching: false,
+            isSearching: true,
+            country: {},
+            show: false,
         }
+    },
+    components: {
+        ModalCountry,
     },
     created() {
         this.getList();
+    },
+    watch: {
+        show: function() {
+        if(this.show){
+            document.documentElement.style.overflow = 'hidden'
+            return
+        }
+        document.documentElement.style.overflow = 'auto'
+        }
     },
     methods: {
         getList() {
@@ -121,12 +136,17 @@ export default {
         },
 
         onSearch() {
-            this.filterCountry = this.list.filter(item => item.name.official.toLowerCase().includes(this.query))
-            console.log(this.filterCountry)
+            this.filterCountry = this.list.filter(item => item.name.official.toLowerCase().includes(this.query.toLowerCase()))
         },
 
         onChooseItem(item) {
-            console.log(item)
+            this.isSearching  = false;
+            this.show = true
+            this.country = item;
+        },
+
+        onClose() {
+            this.show = false;
         },
 
         sortName() {
